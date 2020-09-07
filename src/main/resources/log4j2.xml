@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+	<Properties>
+        <Property name="LOG_FORMAT">%d{HH:mm:ss.SSS} [%thread][%method:%line] %-5level %logger{36} - %msg %n</Property>
+		<Property name="BASE_DIR">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+        </Console>
+
+        <RollingFile name="LogToFile"
+                     fileName="${BASE_DIR}/demo-log.log"
+                     filePattern="${BASE_DIR}/demo-log.%d{yyyy-MM-dd}_%i.log.gz">
+            <PatternLayout pattern="${LOG_FORMAT}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="100">
+                <!--<Delete basePath="${BASE_DIR}">
+                    <IfFileName glob="*.log" />
+                    <IfLastModified age="15d" />
+                </Delete>-->
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.springframework.boot" level="error" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <!-- avoid duplicated logs with additivity=false -->
+        <logger name="com.example.demo" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="LogToFile"/>
+        </logger>
+        <Root level="info">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="LogToFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
