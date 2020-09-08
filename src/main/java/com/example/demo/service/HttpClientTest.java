@@ -23,8 +23,8 @@ public class HttpClientTest {
         this.customWebClinet = customWebClinet;
     }
 
-    public Mono<String> httpWebClientGetTest() {
-        return customWebClinet.mutate() /* 기존 설정값 상속하여 사용 */
+    public void httpWebClientGetTest() {
+        customWebClinet.mutate() /* 기존 설정값 상속하여 사용 */
                 .baseUrl("https://api.etherscan.io/api").build()
                 .get()
                 .uri("?module=gastracker&action=gasoracle&apikey={APIKEY}", APIKEY)
@@ -37,13 +37,9 @@ public class HttpClientTest {
                         , clientResponse ->
                                 clientResponse.bodyToMono(String.class)
                                         .map(body -> new RuntimeException(body)))
-                .bodyToMono(String.class);
-        /**
-         *      .subscribe(response -> {
-         *                     logger.info(response);
-         *                 }, e -> logger.error(e.getMessage()));
-         *
-         *
-         */
+                .bodyToMono(String.class)
+                .subscribe(response -> {
+                    logger.info(response);
+                }, e -> logger.error(e.getMessage()));
     }
 }
