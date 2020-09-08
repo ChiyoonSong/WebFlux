@@ -48,7 +48,13 @@ public class WebClientConfiguration {
                 .messageWriters().stream()
                 .filter(LoggingCodecSupport.class::isInstance)
                 .forEach(writer -> ((LoggingCodecSupport) writer).setEnableLoggingRequestDetails(true));
-
+        /**
+         * WebClient.builder()를 통해 아래와 같은 설정이 가능
+         *  모든 호출에 대한 기본 Header / Cookie 값 설정
+         *  filter 를 통한 Request/Response 처리
+         *  Http 메시지 Reader/Writer 조작
+         *  Http Client Library 설정
+         */
         return WebClient.builder()
                 /*HttpClient TimeOut*/
                 .clientConnector(new ReactorClientHttpConnector(
