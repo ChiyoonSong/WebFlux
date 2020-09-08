@@ -5,25 +5,24 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 /**
  * etherscan API call
  * [GET] gasPrice Value
  */
 @Service
-public class HttpClientTest {
-    private static final Logger logger = LogManager.getLogger(HttpClientTest.class);
+public class HttpWebClient {
+    private static final Logger logger = LogManager.getLogger(HttpWebClient.class);
 
     private final WebClient customWebClinet;
 
     private final String APIKEY = "";
 
-    public HttpClientTest(WebClient customWebClinet) {
+    public HttpWebClient(WebClient customWebClinet) {
         this.customWebClinet = customWebClinet;
     }
 
-    public void httpWebClientGetTest() {
+    public void getEthGasPrice() {
         customWebClinet.mutate() /* 기존 설정값 상속하여 사용 */
                 .baseUrl("https://api.etherscan.io/api").build()
                 .get()

@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.service.HttpClientTest;
+import com.example.demo.service.HttpWebClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +16,16 @@ public class Controller {
 
     private final AtomicInteger atomicInteger = new AtomicInteger();
 
-    private final HttpClientTest httpClientTest;
+    private final HttpWebClient httpWebClient;
 
-    public Controller(HttpClientTest httpClientTest) {
-        this.httpClientTest = httpClientTest;
+    public Controller(HttpWebClient httpWebClient) {
+        this.httpWebClient = httpWebClient;
     }
 
     @GetMapping("/async")
     public String async() throws InterruptedException {
         Thread.sleep(3000);
-        httpClientTest.httpWebClientGetTest();
+        httpWebClient.getEthGasPrice();
         return "success - " + this.atomicInteger.incrementAndGet();
     }
 }
